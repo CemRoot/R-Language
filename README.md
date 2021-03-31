@@ -49,4 +49,4 @@ Bu kod ile görselleri yan yana bastırdık, bir de alt alta bastıralım.
 >ggarrange(p1,p2, ncol = 1, nrow = 2)
 
 
-# Daha fazlası için http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/81-ggplot2-easy-way-to-mix-multiple-graphs-on-the-same-page/ linkine bakmanızı tavsiye ederim.
+# Daha fazlası için http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/81-ggplot2-easy-way-to-mix-multiple-graphs-on-the-same-page/ linkine bakabilirsiniz.
