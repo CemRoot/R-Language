@@ -1,0 +1,34 @@
+Karar ağaçları da regresyon gibi sektörde en çok tercih edilen algoritmalardandır. Sizce bunun nedeni ne olabilir? Karar ağaçları dediğimizde aklınızda nasıl bir yapı canlanıyor?
+
+Karar ağacı algoritmasının mantığı oldukça basittir. İlk olarak hangi değişkeni tahmin edeceğimizi belirliyoruz. Karar ağacı algoritmamız bizim için veri setimizdeki diğer değişkenlerin farklı özelliklerinin tahmin edeceğimiz değişkeni nasıl etkilediğini saptıyor. Diyelim ki araba satışlarının yüksek olup olmama durumlarını inceliyoruz.(bu nasıl bir problemdir?)
+
+Verimizi görelim.
+
+#install.packages("tree")
+#install.packages('ISLR')
+library(tree)
+## Warning: package 'tree' was built under R version 3.4.4
+library(ISLR)
+attach(Carseats)
+head(Carseats)
+##   Sales CompPrice Income Advertising Population Price ShelveLoc Age
+## 1  9.50       138     73          11        276   120       Bad  42
+## 2 11.22       111     48          16        260    83      Good  65
+## 3 10.06       113     35          10        269    80    Medium  59
+## 4  7.40       117    100           4        466    97    Medium  55
+## 5  4.15       141     64           3        340   128       Bad  38
+## 6 10.81       124    113          13        501    72       Bad  78
+##   Education Urban  US
+## 1        17   Yes Yes
+## 2        10   Yes Yes
+## 3        12   Yes Yes
+## 4        14   Yes Yes
+## 5        13   Yes  No
+## 6        16    No Yes
+Şimdi karar ağaçları algoritmamızı oluşturabiliriz. Oluşturup görselleştirdiğimizde kavraması çok daha kolay olacaktır.
+
+High=ifelse(Sales <=8,"No","Yes")
+Carseats =data.frame(Carseats ,High)
+tree.carseats =tree(High~.-Sales ,Carseats )
+plot(tree.carseats)
+text(tree.carseats, cex = 0.6)

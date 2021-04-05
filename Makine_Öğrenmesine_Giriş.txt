@@ -1,0 +1,81 @@
+## Regresyon
+
+Regresyon makine öğrenmesinin temelleri arasındadır. Sizce sektörde en çok kullanılan makine öğrenmesi algoritması hangisidir? Sektörde kullanılacak bir algoritmanın ne gibi özelliklere sahip olması gerekir?
+
+Diyelim ki bir sunumdayız. Yaptığımız tahmin analizini bir toplantıda sunuyoruz. Yaptığınız tahmini neye göre yaptığınızı nasıl açıklarsınız? Bu tahmini nasıl doğrularsınız? Bu tahminin doğruluğuna etki eden faktörleri nasıl açıklarsınız? Makine öğrenmesinde modeller kompleksleştikçe yukarıda sıraladığım soruları cevaplamak zorlaşır. Örneğin, bir yapay sinir ağları algoritması hangi değişkenin ne kadar etki ettiği konusunda bize regresyon kadar bilgi veremez. Regresyon (doğrusal veya logistic) bize yukarıdaki soruların hepsinin cevabını verir. Bu nedenle tercih edilir.
+
+Doğrusal regresyon algoritması
+
+y = A + Bx + hata payı
+
+şeklinde yazılabilir. A değeri koordinat düzleminin Y ekseninde kestiğimiz noktadır. Regresyon çıktısında intercept isimli yer bizim formülümüzdeki A değerine denk gelmektedir. ( regresyon algoritmamızı atadığımız değişkenin ismi pred olsun, pred = lm(…) , summary(pred) dediğimizde bu çıktıyı elde ederiz.) B ise verimizdeki bir birim değişimin sonuca, yani y’ye olan etki değerini vermektedir. Bu da doğrumuzun eğimine eşittir. Formülümüz tek bir B ve tek bir x’e sahip olmak zorunda değildir. Birden çok B ve x değeri olabilir. Her x değeri için onun etkisini belirten bir B değeri vardır.
+
+Regresyon doğrumuz her zaman mükemmel tahminler çıkaramaz, bu nedenle bir hata payımız da bulunur. Diyelim ki gerçek y değerimiz 5, biz 4.6 tahmin ettik. Bu durumda formülümüz
+
+5 = 4.6 + hata payı
+
+şeklinde olacaktır. Bu durumda hata payımız 0.4’tür. Bunu tüm veri seti için yaptığımızda elimizde sayısal bir vektör olur. Burada hata payını çıkardığımızda formülümüz y’ = A + Bx haline geliyor. Buradaki y’ tahmin edilen değer demek. Örneğimizde y’ değeri 4.6, ona hata payını da eklediğimizde 5 oluyor, yani y’ değil de y değerini elde etmiş oluyoruz. Formülümüzde bir adet x değeri var, bu da y’yi tahmin etmek için sadece bir özellik kullandığımız anlamına geliyor. Örneğin ev fiyatları tahmini yapıyor olalım. Bir evin fiyatını sadece büyüklüğüne bakarak tahmin etmiş gibi oluyoruz. Fakat buradaki formülü y’ = A + B(1)X(1) + B(2)X(2) + …. gibi genişleterek büyüklüğün yanına yapıldığı yıl, konum gibi değişkenler de ekleyebiliyoruz.
+
+Örnek kod:
+
+head(cars) 
+##   speed dist
+## 1     4    2
+## 2     4   10
+## 3     7    4
+## 4     7   22
+## 5     8   16
+## 6     9   10
+linearMod <- lm(dist~speed, data = cars) 
+summary(linearMod)
+## 
+## Call:
+## lm(formula = dist ~ speed, data = cars)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -29.069  -9.525  -2.272   9.215  43.201 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -17.5791     6.7584  -2.601   0.0123 *  
+## speed         3.9324     0.4155   9.464 1.49e-12 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 15.38 on 48 degrees of freedom
+## Multiple R-squared:  0.6511, Adjusted R-squared:  0.6438 
+## F-statistic: 89.57 on 1 and 48 DF,  p-value: 1.49e-12
+Şimdi bu çıktıyı anlayalım.
+
+Call: kısmı bizim kurduğumuz algoritma.
+
+Residuals kısmı bizim hata payımızın dağılımı. Hata miktarlarımızın quantile değerleri verilmiş.
+
+Coefficient kısmı için yukarıdaki y = A + Bx + hata payı formülümüzü hatırlayalım. A için intercept demiştik. Yani A değerimiz -17.5791 oluyor. Doğrumuzun eğimi, yani birim artışta sonuca yaptığı etki B, buradaki speed, 3.9324 oluyor. Std. error kısmı bu değerlerin dağılımlarının standart sapmasını veriyor. t value kısmı bizim A ve B değerlerimizin Std. error ile bölünmesi sonucu gelen değer. Bu değer ve Student t dağılımı karşılaştırılarak bir p value belirleniyor, o da Pr(>|t|) kısmı. Bu kısım bizim değişkenimizin ne kadar önemli bir değişken olduğunu söyleyen kısım. Bir değişkenin tahmin ettiğimiz değişken üzerine olan etkisinin ne kadar kuvvetli olduğu p value değerinin küçüklüğü ile ölçülür. Üç yıldız (***)’a sahip değişkenin p value’su bir yıldıza sahip değişkenden daha düşük, yani o daha önemli bir değişken olarak yorumlanabilir. (tabi bunlar frequentist ölçüler, farklı bir bakış açısı için Bayesian istatistik çalışabilirsiniz).
+
+Multiple Linear Regression için yapmamız gereken sadece başka değişkenleri eklemek olacak.
+
+library(MASS)
+attach(Boston)
+lm.fit=lm(medv~lstat+age,data=Boston) 
+summary(lm.fit)
+## 
+## Call:
+## lm(formula = medv ~ lstat + age, data = Boston)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -15.981  -3.978  -1.283   1.968  23.158 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) 33.22276    0.73085  45.458  < 2e-16 ***
+## lstat       -1.03207    0.04819 -21.416  < 2e-16 ***
+## age          0.03454    0.01223   2.826  0.00491 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 6.173 on 503 degrees of freedom
+## Multiple R-squared:  0.5513, Adjusted R-squared:  0.5495 
+## F-statistic:   309 on 2 and 503 DF,  p-value: < 2.2e-16
