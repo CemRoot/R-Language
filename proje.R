@@ -27,14 +27,18 @@ gorsel.veri<-ggplot(tam.veri[1:891,])
 rm(gorsel.veri)#silmek için
 
 #Sýnýfa göre hayatta kalýp kalmama 
-p1= ggplot(tam.veri[1:891,]) + geom_bar(mapping = aes(x = Pclass, fill = Survived),position = "fill")+theme(legend.position = "none")
+p1= ggplot(tam.veri[1:891,]) + geom_bar(mapping = aes(x = Pclass, fill = Survived),
+                                        position = "fill")
 #yas ile hayatta kalýp kalmama
 summary(tam.veri)
-p2= ggplot(tam.veri[1:891,]) + geom_freqpoly(mapping = aes(x = Age, color = Survived),bins = 50)+theme(legend.position = "none")
+p2= ggplot(tam.veri[1:891,]) + geom_freqpoly(mapping = aes(x = Age, color = Survived),
+                                             bins = 50)+theme(legend.position = "none")
 #bilet fiyatlarý ile hayatta kalýp kalmama
-p3=ggplot(tam.veri[1:891,]) + geom_freqpoly(mapping = aes(x = Fare, color = Survived),bins = 100)+theme(legend.position = "none")
+p3=ggplot(tam.veri[1:891,]) + geom_freqpoly(mapping = aes(x = Fare, color = Survived),
+                                            bins = 100)+theme(legend.position = "none")
 #aile ile ve yanlýz kiþilerin hayatta kalýp kalmama verisi
-p4=ggplot(tam.veri[1:891,]) + geom_bar(mapping = aes(x = SibSp+Parch, color = Survived),position = "fill")+theme(legend.position = "none")
+p4=ggplot(tam.veri[1:891,]) + geom_bar(mapping = aes(x = SibSp+Parch, color = Survived),
+                                       position = "fill")+theme(legend.position = "none")
 
 #bütün verileri bir karede incelemek istiyorum 
 library(ggpubr)
@@ -162,23 +166,10 @@ colnames(Finish.Titanic) <- c("PassengerId")
 Finish.Titanic$Survived <- tahminler.1
 
 
-write.csv2(Finish.Titanic,"Finish.Titanic.csv",row.names = F)
+write.csv2(Finish.Titanic,"Titanic1.csv",row.names = T)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+###################
 
 
 
